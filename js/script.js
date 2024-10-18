@@ -1,23 +1,27 @@
 const vetRooms = [
-    '/css/imagens/cenarioPrincipal.jpeg',
-    '/css/imagens/mesa.jpeg',
-    '/css/imagens/quadro.jpeg',
-    '/css/imagens/armario.jpeg',
-    '/css/imagens/quadro2.jpeg',
-    '/css/imagens/armario2.jpeg',
-    '/css/imagens/quadro3.jpeg',
-    '/css/imagens/porta.jpeg',
-    '/css/imagens/mesaDiario.jpeg',
-    '/css/imagens/mesaScout.jpeg',
-    '/css/imagens/mesaFotos.jpeg',
-    '/css/imagens/resolucao.jpeg',
-    '/css/imagens/armarioAberto.jpeg',
-    '/css/imagens/portaChave.jpeg',
-    '/css/imagens/portaAberta.jpeg'
+    '/assets/imagens/cenarioPrincipal.jpeg',
+    '/assets/imagens/mesa.jpeg',
+    '/assets/imagens/quadro.jpeg',
+    '/assets/imagens/armario.jpeg',
+    '/assets/imagens/quadro2.jpeg',
+    '/assets/imagens/armario2.jpeg',
+    '/assets/imagens/quadro3.jpeg',
+    '/assets/imagens/porta.jpeg',
+    '/assets/imagens/mesaDiario.jpeg',
+    '/assets/imagens/mesaScout.jpeg',
+    '/assets/imagens/mesaFotos.jpeg',
+    '/assets/imagens/resolucao.jpeg',
+    '/assets/imagens/armarioAberto.jpeg',
+    '/assets/imagens/portaChave.jpeg',
+    '/assets/imagens/finalVitoria.jpeg',
+    '/assets/imagens/cenarioPrincipal2.jpeg',
+    '/assets/imagens/cobaia.jpeg',
+    '/assets/imagens/finalDerrota.jpeg'
 ];
 let cenaAtual = "cenarioPrincipal";
-let pistaSenha = [];
+let pistas = [];
 let senha = false;
+let chaveCorreta = false;
 
 function trocaImagem(newImage) {
     const element = document.getElementById('imagemPrincipal');
@@ -30,33 +34,37 @@ document.addEventListener("click", getXYOnMouseClick);
 
 function getXYOnMouseClick(e) {
     const element = document.getElementById('imagemPrincipal');
-    const rect = element.getBoundingClientRect(); // Obtém as dimensões da imagem visível
+    // Obtém as dimensões da imagem visível
+    const rect = element.getBoundingClientRect();
 
     // Calcula as coordenadas relativas ao tamanho da imagem
     const relativeX = (e.clientX - rect.left) / rect.width;
     const relativeY = (e.clientY - rect.top) / rect.height;
 
-    console.log(`Relative X: ${relativeX}, Relative Y: ${relativeY}`);
-
     switch (cenaAtual) {
         case "cenarioPrincipal":
-            // Aqui você pode usar porcentagens relativas para determinar a área clicada
-            if (relativeX >= 0.15 && relativeX <= 0.41 && relativeY >= 0.62 && relativeY <= 0.80) {
-                trocaImagem(vetRooms[1]);
-                cenaAtual = "mesa";
+            if (!pistas.includes("entrada")) {
+                alert("Ouse sempre clicar em todo e qualquer elemento da imagem para ir descobrindo pistas e conseguir escapar, bom jogo!\n\nOBS: Você pode apertar espaço para fechar estas mensagens se estiver jogando pelo computador.");
+                pistas.push("entrada");
             } else if (relativeX >= 0.0016 && relativeX <= 0.22 && relativeY >= 0.068 && relativeY <= 0.47) {
                 trocaImagem(vetRooms[2]);
                 cenaAtual = "quadro";
             } else if (relativeX >= 0.23 && relativeX <= 0.34 && relativeY >= 0.27 && relativeY <= 0.59) {
                 trocaImagem(vetRooms[3]);
                 cenaAtual = "armario";
+            } else if (relativeX >= 0.82 && relativeX <= 0.92 && relativeY >= 0.39 && relativeY <= 0.59) {
+                trocaImagem(vetRooms[15]);
+                cenaAtual = "cenarioPrincipal2";
+            } else if (relativeX >= 0.15 && relativeX <= 0.41 && relativeY >= 0.62 && relativeY <= 0.80) {
+                trocaImagem(vetRooms[1]);
+                cenaAtual = "mesa";
             }
             break;
         case "mesa":
             if (relativeX >= 0.42 && relativeX <= 0.57 && relativeY >= 0.86 && relativeY <= 0.97) {
                 trocaImagem(vetRooms[0]);
                 cenaAtual = "cenarioPrincipal";
-                if (pistaSenha.includes("diario" && "scout" && "fotos" && "quadro")) {
+                if (pistas.includes("diario") && pistas.includes("scout") && pistas.includes("fotos") && pistas.includes("quadro")) {
                     trocaImagem(vetRooms[11]);
                     cenaAtual = "resolucao";
                     alert("Já sei tudo o que preciso para descobrir a senha!");
@@ -74,7 +82,7 @@ function getXYOnMouseClick(e) {
             }
             break;
         case "resolucao":
-            alert("Bom, de acordo com esse diagrama de punnett eu consegui as probabilidades 25%, 50% e 25%. Porém como o alelo B é dominante então as probabilidades se tornam 42% e 25%.\nMinha senha então é 4225, posso abrir o armário agora!");
+            alert("Bom, de acordo com esse diagrama de punnett eu consegui as probabilidades 25%, 50% e 25%. Porém como o alelo B é dominante então as probabilidades se tornam 75% e 25%.\nMinha senha então é 7525, posso abrir o armário agora!");
             trocaImagem(vetRooms[0]);
             cenaAtual = "cenarioPrincipal";
             break;
@@ -82,23 +90,23 @@ function getXYOnMouseClick(e) {
             if (relativeX >= 0.42 && relativeX <= 0.57 && relativeY >= 0.86 && relativeY <= 0.97) {
                 trocaImagem(vetRooms[0]);
                 cenaAtual = "cenarioPrincipal";
-                if (pistaSenha.includes("diario") && pistaSenha.includes("scout") && pistaSenha.includes("fotos") && pistaSenha.includes("quadro")) {
+                if (pistas.includes("diario") && pistas.includes("scout") && pistas.includes("fotos") && pistas.includes("quadro")) {
                     trocaImagem(vetRooms[11]);
                     cenaAtual = "resolucao";
                     alert("Já sei tudo o que preciso para descobrir a senha!");
                     senha = true;
                 }
             } else if (relativeX >= 0.081 && relativeX <= 0.64 && relativeY >= 0.22 && relativeY <= 0.83) {
-                if (!pistaSenha.includes("quadro")) {
+                if (!pistas.includes("quadro")) {
                     alert("Isso vai ser útil!");
-                    pistaSenha.push("quadro");
+                    pistas.push("quadro");
                 }
                 trocaImagem(vetRooms[4]);
                 cenaAtual = "quadro2";
             } else if (relativeX >= 0.64 && relativeX <= 91 && relativeY >= 0.23 && relativeY <= 0.81) {
-                if (!pistaSenha.includes("quadro")) {
+                if (!pistas.includes("quadro")) {
                     alert("Isso vai ser útil!");
-                    pistaSenha.push("quadro");
+                    pistas.push("quadro");
                 }
                 trocaImagem(vetRooms[6]);
                 cenaAtual = "quadro3";
@@ -143,6 +151,8 @@ function getXYOnMouseClick(e) {
             if (relativeX >= 0.42 && relativeX <= 0.57 && relativeY >= 0.86 && relativeY <= 0.97) {
                 trocaImagem(vetRooms[3]);
                 cenaAtual = "armario";
+            } else if (relativeX >= 0.39 && relativeX <= 0.559 && relativeY >= 0.20 && relativeY <= 0.84) {
+                alert("Trancada...");
             }
             break;
         case "mesaDiario":
@@ -150,9 +160,9 @@ function getXYOnMouseClick(e) {
                 trocaImagem(vetRooms[1]);
                 cenaAtual = "mesa";
             } else if (relativeX >= 0.17 && relativeX <= 0.82 && relativeY >= 0.017 && relativeY <= 0.86) {
-                if (!pistaSenha.includes("diario")) {
+                if (!pistas.includes("diario")) {
                     alert("Precisarei fazer um cruzamento genético dos pais desse filhote, as probabilidades são a senha para o cofre!");
-                    pistaSenha.push("diario");
+                    pistas.push("diario");
                 } else {
                     alert("Já descobri o que precisava saber por aqui");
                 }
@@ -163,9 +173,9 @@ function getXYOnMouseClick(e) {
                 trocaImagem(vetRooms[1]);
                 cenaAtual = "mesa";
             } else if (relativeX >= 0.27 && relativeX <= 0.71 && relativeY >= 0.030 && relativeY <= 0.83) {
-                if (!pistaSenha.includes("scout")) {
+                if (!pistas.includes("scout")) {
                     alert("Hm... Esse deve ser o filhote favorito dela");
-                    pistaSenha.push("scout");
+                    pistas.push("scout");
                 } else {
                     alert("Já descobri o que precisava saber por aqui");
                 }
@@ -176,9 +186,9 @@ function getXYOnMouseClick(e) {
                 trocaImagem(vetRooms[1]);
                 cenaAtual = "mesa";
             } else if (relativeX >= 0.175 && relativeX <= 0.86 && relativeY >= 0.10 && relativeY <= 0.84) {
-                if (!pistaSenha.includes("fotos")) {
+                if (!pistas.includes("fotos")) {
                     alert("Parece que os pais dela possuíam ambos o mesmo genótipo \nA relação vai ficar Bb x Bb...");
-                    pistaSenha.push("fotos");
+                    pistas.push("fotos");
                 } else {
                     alert("Já descobri o que precisava saber por aqui");
                 }
@@ -188,29 +198,66 @@ function getXYOnMouseClick(e) {
             if (relativeX >= 0.42 && relativeX <= 0.57 && relativeY >= 0.86 && relativeY <= 0.97) {
                 trocaImagem(vetRooms[5]);
                 cenaAtual = "armario2";
-            } else if (relativeX >= 0.70 && relativeX <= 73 && relativeY >= 0.21 && relativeY <= 0.62) {
+            } else if (relativeX >= 0.68 && relativeX <= 0.73 && relativeY >= 0.48 && relativeY <= 0.63) {
                 trocaImagem(vetRooms[13]);
                 cenaAtual = "portaChave";
-            } else if (relativeX >= 0.75 && relativeX <= 78 && relativeY >= 0.23 && relativeY <= 0.62) {
+                chaveCorreta = false;
+            } else if (relativeX >= 0.745 && relativeX <= 0.783 && relativeY >= 0.49 && relativeY <= 0.63) {
                 trocaImagem(vetRooms[13]);
                 cenaAtual = "portaChave";
-            } else if (relativeX >= 0.802 && relativeX <= 0.833 && relativeY >= 0.230 && relativeY <= 0.634) {
+                chaveCorreta = false;
+            } else if (relativeX >= 0.79 && relativeX <= 0.82 && relativeY >= 0.49 && relativeY <= 0.63) {
                 trocaImagem(vetRooms[13]);
                 cenaAtual = "portaChave";
-            } else if (relativeX >= 0.84 && relativeX <= 0.87 && relativeY >= 0.230 && relativeY <= 0.634) {
+                chaveCorreta = true;
+            } else if (relativeX >= 0.83 && relativeX <= 0.87 && relativeY >= 0.50 && relativeY <= 0.63) {
                 trocaImagem(vetRooms[13]);
                 cenaAtual = "portaChave";
+                chaveCorreta = false;
+            } else if (relativeX >= 0.059 && relativeX <= 0.61 && relativeY >= 0.10 && relativeY <= 0.78 && pistas.includes("cobaia")) {
+                alert("É o sangue da cobaia que estava na mesa, esses números tem algo a ver com as chaves!?");
+            } else if (relativeX >= 0.059 && relativeX <= 0.61 && relativeY >= 0.10 && relativeY <= 0.78 && !pistas.includes("cobaia")) {
+                alert("Talvez seja sensato explorar o laboratório mais um pouco antes de mexer nisso...");
             }
             break;
         case "portaChave":
-            if (relativeX >= 0.39 && relativeX <= 0.55 && relativeY >= 0.19 && relativeY <= 0.85) {
+            if (relativeX >= 0.39 && relativeX <= 0.55 && relativeY >= 0.19 && relativeY <= 0.85 && chaveCorreta == true) {
                 trocaImagem(vetRooms[14]);
-                cenaAtual = "portaAberta";
+                cenaAtual = "finalVitoria";
+            } else if (relativeX >= 0.39 && relativeX <= 0.55 && relativeY >= 0.19 && relativeY <= 0.85 && chaveCorreta == false){
+                alert("A porta não está abrindo, droga fiz barulho...");
+                trocaImagem(vetRooms[17]);
+                cenaAtual = "finalDerrota";
+            }
+            break;
+        case "cenarioPrincipal2":
+            if (relativeX >= 0.074 && relativeX <= 0.17 && relativeY >= 0.040 && relativeY <= 0.59) {
+                trocaImagem(vetRooms[0]);
+                cenaAtual = "cenarioPrincipal";
+            } else if (relativeX >= 0.72 && relativeX <= 0.87 && relativeY >= 0.53 && relativeY <= 0.66) {
+                trocaImagem(vetRooms[16]);
+                cenaAtual = "cobaia";
+            } else if (relativeX >= 0.28 && relativeX <= 0.47 && relativeY >= 0.59 && relativeY <= 0.78) {
+                trocaImagem(vetRooms[1]);
+                cenaAtual = "mesa";
+            } else if (relativeX >= 0.28 && relativeX <= 0.47 && relativeY >= 0.59 && relativeY <= 0.78) {
+                trocaImagem(vetRooms[1]);
+                cenaAtual = "mesa";
+            }
+            break;
+        case "cobaia":
+            if (relativeX >= 0.42 && relativeX <= 0.57 && relativeY >= 0.86 && relativeY <= 0.97) {
+                trocaImagem(vetRooms[15]);
+                cenaAtual = "cenarioPrincipal2";
+            } else if (relativeX >= 0.10 && relativeX <= 0.80 && relativeY >= 0.092 && relativeY <= 0.81) {
+                pistas.push("cobaia");
+                alert("Preciso sair desse laboratório ou serei o próximo...");
             }
             break;
         default:
             break;
     }
-    console.log(pistaSenha);
+    console.log(pistas);
     console.log(cenaAtual);
+    console.log(`Relative X: ${relativeX}, Relative Y: ${relativeY}`);
 }

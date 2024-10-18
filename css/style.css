@@ -5,6 +5,9 @@
 
 html,
 body {
+    background-image: url('/assets/imagens/background_menu.jpeg');
+    background-size: cover;
+    background-position: center;
     height: 100%;
     margin: 0;
 }
@@ -24,6 +27,9 @@ body {
 }
 
 #imagemPrincipal {
-    max-width: 70%;
-    height: auto; /* Para manter a proporção da imagem */
+    border: 10px solid black;
+    border-radius: 10px;
+    border-color: rgb(8, 51, 8);
+    max-width: 80%;
+    height: auto;
 }
